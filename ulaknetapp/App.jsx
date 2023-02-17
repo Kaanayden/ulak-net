@@ -5,7 +5,11 @@
  * @format
  */
 
-import React from 'react';
+import RNBluetoothClassic, {
+  BluetoothDevice
+} from 'react-native-bluetooth-classic';
+
+import React, { useState } from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -14,6 +18,7 @@ import {
   Text,
   useColorScheme,
   View,
+  Button,
 } from 'react-native';
 
 
@@ -22,6 +27,11 @@ import {
 function App() {
   const isDarkMode = useColorScheme() === 'dark';
 
+  const [isBluetoothAvailable, setBluetoothAvailable] = useState(false);
+
+  function handleClick() {
+     setBluetoothAvailable( RNBluetoothClassic.isBluetoothAvailable() );
+  }
 
   return (
     <SafeAreaView >
@@ -33,8 +43,10 @@ function App() {
 
         
         <View>
-        <Text>ULAK NET</Text>
+        <Text>ULAK NETTT</Text>
+        <Button title='Test Bluetooth' onPress={handleClick}/>
 
+        <Text> { isBluetoothAvailable ? "Available" : "Not available" } </Text>
         </View>
       </ScrollView>
     </SafeAreaView>
