@@ -97,7 +97,6 @@ function App() {
 
   async function handleDiscover() {
     setDiscovering(true);
-    RNBluetoothClassic.
     const devices = await RNBluetoothClassic.startDiscovery()
     const deviceNames = devices.map( device => device.name );
      setDeviceNamesString( deviceNames.length )
