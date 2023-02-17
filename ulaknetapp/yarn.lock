@@ -5747,6 +5747,11 @@
   "resolved" "https://registry.npmjs.org/react-is/-/react-is-17.0.2.tgz"
   "version" "17.0.2"
 
+"react-native-ble-manager@^8.8.0":
+  "integrity" "sha512-8rB3IJuoV7yv3ymHKD/Y9JHpV9pJeLWw9UbmszvYPMDOzSlfsO+mE2xCd8J4vpfmDYKFlT6hsMGAkPV5aPzDag=="
+  "resolved" "https://registry.npmjs.org/react-native-ble-manager/-/react-native-ble-manager-8.8.0.tgz"
+  "version" "8.8.0"
+
 "react-native-bluetooth-classic@^1.60.0-rc.25":
   "integrity" "sha512-zsrdUMPCm3PXveifBwNi6xpDsszUnc0hxb0eSUyxRlk72SsIeFv2uTASDrrug1CYf3wSPdSv//IG9vrRmbY6cg=="
   "resolved" "https://registry.npmjs.org/react-native-bluetooth-classic/-/react-native-bluetooth-classic-1.60.0-rc.25.tgz"
