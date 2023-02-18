@@ -7,6 +7,8 @@ import HomeScreen from './screens/HomeScreen';
 import PrivateChatScreen from './screens/PrivateChatScreen';
 import BluetoothTestScreen from './screens/BluetoothTestScreen';
 
+
+
 const Tab = createMaterialBottomTabNavigator();
 
 function TabNavigation() {
@@ -39,6 +41,16 @@ function TabNavigation() {
           tabBarLabel: 'Özel Sohbet',
           tabBarIcon: ({ color, size }) => (
             <FaIcon name="wechat" size={24} color="#333" />
+          ),
+        }}
+      />
+        <Tab.Screen 
+        name="Bluetooth" 
+        component={BluetoothTestScreen} 
+        options={{
+          tabBarLabel: 'Özel Sohbet',
+          tabBarIcon: ({ color, size }) => (
+            <FaIcon name="bluetooth" size={24} color="#333" />
           ),
         }}
       />

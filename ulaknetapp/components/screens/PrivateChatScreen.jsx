@@ -2,6 +2,7 @@ import {
   Text,
   View,
 } from 'react-native';
+import { Button } from 'react-native-paper';
 
 function PrivateChatScreen() {
   return (

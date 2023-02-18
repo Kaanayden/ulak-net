@@ -1,147 +1,191 @@
 
 import RNBluetoothClassic, {
-  BluetoothDevice
+    BluetoothDevice
 } from 'react-native-bluetooth-classic';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-  Button,
+    View,
+    FlatList,
 } from 'react-native';
 
 import { PermissionsAndroid } from 'react-native';
+import { List, Button, Text } from 'react-native-paper';
+
 
 const requestAccessFineLocationPermission = async () => {
-  const granted = await PermissionsAndroid.request(
-    PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-    {
-      title: 'Access fine location required for discovery',
-      message:
-        'In order to perform discovery, you must enable/allow ' +
-        'fine location access.',
-      buttonNeutral: 'Ask Me Later',
-      buttonNegative: 'Cancel',
-      buttonPositive: 'OK',
-    }
-  );
-  return granted === PermissionsAndroid.RESULTS.GRANTED;
+    const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+        {
+            title: 'Access fine location required for discovery',
+            message:
+                'In order to perform discovery, you must enable/allow ' +
+                'fine location access.',
+            buttonNeutral: 'Ask Me Later',
+            buttonNegative: 'Cancel',
+            buttonPositive: 'OK',
+        }
+    );
+    return granted === PermissionsAndroid.RESULTS.GRANTED;
 };
 
 const requestBluetoothPermission = async () => {
-  const granted = await PermissionsAndroid.request(
-    PermissionsAndroid.PERMISSIONS.BLUETOOTH_SCAN,
-    {
-      title: 'Access  location required for discovery',
-      message:
-        'In order to perform discovery, you must enable/allow ' +
-        'fine location access.',
-      buttonNeutral: 'Ask Me Later',
-      buttonNegative: 'Cancel',
-      buttonPositive: 'OK',
-    }
-  );
-  return granted === PermissionsAndroid.RESULTS.GRANTED;
+    const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.BLUETOOTH_SCAN,
+        {
+            title: 'Access  location required for discovery',
+            message:
+                'In order to perform discovery, you must enable/allow ' +
+                'bluetooth scan access.',
+            buttonNeutral: 'Ask Me Later',
+            buttonNegative: 'Cancel',
+            buttonPositive: 'OK',
+        }
+    );
+    return granted === PermissionsAndroid.RESULTS.GRANTED;
 };
 const requestBluetoothConnectPermission = async () => {
-  const granted = await PermissionsAndroid.request(
-    PermissionsAndroid.PERMISSIONS.BLUETOOTH_CONNECT,
-    {
-      title: 'Access  location required for discovery',
-      message:
-        'In order to perform discovery, you must enable/allow ' +
-        'fine location access.',
-      buttonNeutral: 'Ask Me Later',
-      buttonNegative: 'Cancel',
-      buttonPositive: 'OK',
-    }
-  );
-  return granted === PermissionsAndroid.RESULTS.GRANTED;
+    const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.BLUETOOTH_CONNECT,
+        {
+            title: 'Access  location required for discovery',
+            message:
+                'In order to perform discovery, you must enable/allow ' +
+                'bluetooth connect access.',
+            buttonNeutral: 'Ask Me Later',
+            buttonNegative: 'Cancel',
+            buttonPositive: 'OK',
+        }
+    );
+    return granted === PermissionsAndroid.RESULTS.GRANTED;
 };
 
+export default function BluetoothTestScreen() {
+    const [bondedDevices, setBondedDevices] = useState([]);
+    const [accepting, setAccepting] = useState(false);
 
-function BluetoothTestScreen() {
-  const isDarkMode = useColorScheme() === 'dark';
+    const [messageData, setMessageData] = useState([]);
+    const [messageListener, setMessageListener] = useState(null);
 
-  const [isBluetoothAvailable, setBluetoothAvailable] = useState(false);
-  const [deviceNamesString, setDeviceNamesString ] = useState("First discover!");
-  const [discovering, setDiscovering] = useState(false);
+    useEffect (() => {
 
-  async function handleClick() {
+        const refreshLoop = setInterval( () => {
+            refreshDevices();
+        }, 2000 );
+        return () => {
+            clearInterval(refreshLoop);
+        }
+    }, []);
 
-    requestAccessFineLocationPermission();
-    requestBluetoothPermission();
-    
-    requestBluetoothConnectPermission();
-  }
+    async function handleClick() {
+        requestAccessFineLocationPermission();
+        requestBluetoothPermission();
+        requestBluetoothConnectPermission();
+    }
 
-  async function handleOpenDiscover() {
-    const devices = await RNBluetoothClassic.getConnectedDevices();
-    const deviceNames = devices.map( device => device.name );
-     setDeviceNamesString( deviceNames.length )
-  }
+    async function refreshDevices() {
+        const devices = await RNBluetoothClassic.getBondedDevices();
+        for (let i = 0; i < devices.length; i++) {
+            devices[i].connected = await devices[i].isConnected();
+        }
+        setBondedDevices(devices);
+    }
 
-  async function handleDiscover() {
-    setDiscovering(true);
-    const devices = await RNBluetoothClassic.startDiscovery()
-    const deviceNames = devices.map( device => device.name );
-     setDeviceNamesString( deviceNames.length )
-     setDiscovering(false)
-  }
+    async function handleConnect(device) {
+        try {
+            await device.connect();
+            await subscribeToDevice(device);
+        } catch (e) {
+            console.log("exception", e);
+        }
 
-  async function handleDiscover() {
-    const devices = await BleManager.scan([], 5);
-    
-  }
+    }
 
-  return (
-    <View>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic">
+    async function handleDisconnect(device) {
+        try {
+            device.disconnect();
+        } catch (e) {
+            console.log("exception", e);
+        }
 
-        
+    }
+
+    async function acceptConnections() {
+        setAccepting(true);
+
+        try {
+            const device = await RNBluetoothClassic.accept({});
+            //only works in receiver
+            subscribeToDevice(device);
+            await handleOpenDiscover();
+        } catch (error) {
+            // Handle error accordingly
+            console.log("error", error);
+        } finally {
+            setAccepting(false);
+        }
+    }
+
+    async function sendMessage(device) {
+        const isSent = await device.write("Alo" + "\n");
+        console.log("isSent", isSent);
+    }
+
+    async function subscribeToDevice(device) {
+        if(!messageListener) {
+            const listener = device.onDataReceived( (event) => {
+                setMessageData(
+                    current => [...current, event]
+                );
+                console.log("listener event", event);
+            } );
+            setMessageListener(listener);
+        }   
+    }
+
+    return (
         <View>
-        <Text>ULAK NET</Text>
-        <Text>{discovering ? "Discovering" : "Not discovering"}</Text>
-        <Button title='Test Bluetooth' onPress={handleClick}/>
-        <Button title='Discover' onPress={handleDiscover}/>
-        <Button title='Toast' onPress={handleOpenDiscover}/>
+            <Text>ULAK NET</Text>
+            <Button onPress={handleClick}>Give Permissions</Button>
+            <Button onPress={refreshDevices}>Refresh Devices</Button>
+            {!accepting && <Button onPress={acceptConnections}>Accept Connections</Button>}
+
+            <FlatList
+                data={bondedDevices}
+                keyExtractor={item => item.id}
+                renderItem={(item) => {
+                    return (<List.Item
+                        title={item.item.name}
+                        description={item.item.id + " " + (item.item.connected ? "Connected" : "Not Connected")}
+                        left={props => <List.Icon {...props} icon="bluetooth" />}
+                        right={props =>
+                            <View>
+                                {item.item.connected ?
+                                    <Button onPress={() => handleDisconnect(item.item)}>Disconnect</Button>
+                                    :
+                                    <Button onPress={() => handleConnect(item.item)}>Connect</Button>
+                                }
+                                <Button onPress={() => sendMessage(item.item)}>Send Message</Button>
+                                <Button onPress={() => subscribeToDevice(item.item)}>Subscribe</Button>
+                            </View>
+                        }
+
+                        onPress={() => handleConnect(item.item)}
+                    />)
+                }}
+            />
+
+            <FlatList
+            data={messageData}
+            keyExtractor={item => item.timestamp}
+            renderItem={ (item) => {
+                return(<Text>{item.item.data}</Text>)
+            } }
+            />
 
 
-        <Text> { isBluetoothAvailable ? "Available" : "Not available" } </Text>
-        <Text> {deviceNamesString} </Text>
         </View>
-      </ScrollView>
-    </View>
-  );
+    );
 
 }
 
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-});
-
-export default BluetoothTestScreen;
