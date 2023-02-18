@@ -3,7 +3,6 @@ import RNBluetoothClassic, {
   BluetoothDevice
 } from 'react-native-bluetooth-classic';
 
-
 import React, { useState } from 'react';
 import {
   SafeAreaView,
@@ -17,7 +16,6 @@ import {
 } from 'react-native';
 
 import { PermissionsAndroid } from 'react-native';
-
 
 const requestAccessFineLocationPermission = async () => {
   const granted = await PermissionsAndroid.request(
