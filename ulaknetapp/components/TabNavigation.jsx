@@ -1,5 +1,6 @@
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
-import Icon from 'react-native-vector-icons/dist/FontAwesome';
+import FaIcon from 'react-native-vector-icons/dist/FontAwesome';
+import Fa5Icon from 'react-native-vector-icons/dist/FontAwesome5';
 
 import BroadcastScreen from './screens/BroadcastScreen';
 import HomeScreen from './screens/HomeScreen';
@@ -17,7 +18,7 @@ function TabNavigation() {
         options={{
           tabBarLabel: 'Anasayfa',
           tabBarIcon: ({ color, size }) => (
-            <Icon name="home" size={24} color="#333" />
+            <FaIcon name="home" size={24} color="#333" />
           ),
         }}
       />
@@ -27,7 +28,7 @@ function TabNavigation() {
         options={{
           tabBarLabel: 'Yayın',
           tabBarIcon: ({ color, size }) => (
-            <Icon name="podcast" size={24} color="#333" />
+            <Fa5Icon name="broadcast-tower" size={24} color="#333" />
           ),
         }}
       />
@@ -37,7 +38,7 @@ function TabNavigation() {
         options={{
           tabBarLabel: 'Özel Sohbet',
           tabBarIcon: ({ color, size }) => (
-            <Icon name="wechat" size={24} color="#333" />
+            <FaIcon name="wechat" size={24} color="#333" />
           ),
         }}
       />
