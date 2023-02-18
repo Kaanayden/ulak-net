@@ -1,7 +1,7 @@
 import 'react-native-gesture-handler';
 
 import { NavigationContainer } from '@react-navigation/native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 
 import SettingsScreen from './components/screens/SettingsScreen';
 import HomeScreen from './components/screens/HomeScreen';
@@ -15,7 +15,7 @@ import {
 
 import BluetoothTestScreen from './components/screens/BluetoothTestScreen';
 
-const Tab = createBottomTabNavigator();
+const Tab = createMaterialBottomTabNavigator();
 
 function App() {
   return (
