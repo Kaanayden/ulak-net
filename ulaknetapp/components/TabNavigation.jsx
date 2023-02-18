@@ -11,7 +11,9 @@ const Tab = createMaterialBottomTabNavigator();
 
 function TabNavigation() {
   return (
-    <Tab.Navigator>
+    <Tab.Navigator
+      initialRouteName="Anasayfa"
+    >
       <Tab.Screen 
         name="Anasayfa" 
         component={HomeScreen}
