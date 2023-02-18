@@ -2,39 +2,33 @@ import {
   Text,
   View,
 } from 'react-native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import { useState, useEffect } from 'react'
+import ChatListScreen from './ChatListScreen'
+import ChatScreen from './ChatScreen'
 
-import ChatComponent from './../ChatComponent'
+const ChatStack = createNativeStackNavigator();
 
-function PrivateChatScreen() {
-  const user = {
-    _id: 1,
-  }
-  
-  const [messages, setMessages] = useState([]);
-
-  useEffect(() => {
-    setMessages([
-      {
-        _id: 1,
-        text: 'Hello developer',
-        createdAt: new Date(),
-        user: {
-          _id: 2,
-          name: 'React Native',
-          avatar: 'https://placeimg.com/140/140/any',
-        },
-      },
-    ])
-  }, [])
-
+function PrivateChatScreen({ navigation }) {
   return (
-    <ChatComponent 
-      messages={messages} 
-      setMessages={setMessages}
-      user={user}
-    />
+    <ChatStack.Navigator
+      screenOptions={{ animation: 'none' }}
+    >
+      <ChatStack.Screen 
+        name="ChatListScreen" 
+        component={ChatListScreen}
+        options={{
+          title: "Özel Sohbetler"
+        }}
+      />
+      <ChatStack.Screen 
+        name="ChatScreen" 
+        component={ChatScreen} 
+        options={{
+          title: "Sohbet"
+        }}
+      />
+    </ChatStack.Navigator>
   );
 }
 

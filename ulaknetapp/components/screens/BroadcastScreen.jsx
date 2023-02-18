@@ -2,14 +2,14 @@ import {
   Text,
   View,
 } from 'react-native';
-
 import { useState, useEffect } from 'react'
+import { Appbar } from 'react-native-paper';
 
 import ChatComponent from './../ChatComponent'
 
-function SettingsScreen() {
+function SettingsScreen({ navigation }) {
   const user = {
-    _id: 2,
+    _id: 1,
   }
   
   const [messages, setMessages] = useState([]);
@@ -23,18 +23,30 @@ function SettingsScreen() {
         user: {
           _id: 2,
           name: 'React Native',
-          avatar: 'https://placeimg.com/140/140/any',
+        },
+      },
+      {
+        _id: 2,
+        text: 'Deneme',
+        createdAt: new Date(),
+        user: {
+          _id: 1,
+          name: 'React Native',
         },
       },
     ])
   }, [])
 
   return (
-    <ChatComponent 
-      messages={messages} 
-      setMessages={setMessages}
-      user={user}
-    />
+    <>
+      <Text style={{alignSelf: 'center', fontSize: 20, fontWeight: 700, padding: 20}}>Yayın</Text>
+      <ChatComponent 
+        messages={messages} 
+        setMessages={setMessages}
+        user={user}
+        renderUsernameOnMessage={true}
+      />
+    </>
   );
 }
 

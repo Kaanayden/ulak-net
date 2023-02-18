@@ -13,9 +13,10 @@ function TabNavigation() {
   return (
     <Tab.Navigator
       initialRouteName="Anasayfa"
+      backBehavior="history"
     >
       <Tab.Screen 
-        name="Anasayfa" 
+        name="home" 
         component={HomeScreen}
         options={{
           tabBarLabel: 'Anasayfa',
@@ -25,7 +26,7 @@ function TabNavigation() {
         }}
       />
       <Tab.Screen 
-        name="Yayın" 
+        name="broadcast" 
         component={BroadcastScreen} 
         options={{
           tabBarLabel: 'Yayın',
@@ -35,7 +36,7 @@ function TabNavigation() {
         }}
       />
       <Tab.Screen 
-        name="Özel Sohbet" 
+        name="private-chat" 
         component={PrivateChatScreen} 
         options={{
           tabBarLabel: 'Özel Sohbet',
