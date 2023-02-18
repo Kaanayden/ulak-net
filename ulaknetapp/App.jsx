@@ -5,11 +5,16 @@
  * @format
  */
 
-
+//this should be in top for drawer navigation
+import 'react-native-gesture-handler';
 
 import RNBluetoothClassic, {
   BluetoothDevice
 } from 'react-native-bluetooth-classic';
+
+
+import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import React, { useState } from 'react';
 import {
@@ -25,7 +30,21 @@ import {
 
 import { PermissionsAndroid } from 'react-native';
 
-import BleManager from 'react-native-ble-manager';
+function HomeScreen() {
+  return (
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <Text>Home!</Text>
+    </View>
+  );
+}
+
+function SettingsScreen() {
+  return (
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <Text>Settings!</Text>
+    </View>
+  );
+}
 
 const requestAccessFineLocationPermission = async () => {
   const granted = await PermissionsAndroid.request(
@@ -74,7 +93,7 @@ const requestBluetoothConnectPermission = async () => {
   return granted === PermissionsAndroid.RESULTS.GRANTED;
 };
 
-
+const Tab = createBottomTabNavigator();
 
 function App() {
   const isDarkMode = useColorScheme() === 'dark';
@@ -111,28 +130,14 @@ function App() {
   }
 
   return (
-    <SafeAreaView >
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic">
-
-        
-        <View>
-        <Text>ULAK NET</Text>
-        <Text>{discovering ? "Discovering" : "Not discovering"}</Text>
-        <Button title='Test Bluetooth' onPress={handleClick}/>
-        <Button title='Discover' onPress={handleDiscover}/>
-        <Button title='Toast' onPress={handleOpenDiscover}/>
-
-
-        <Text> { isBluetoothAvailable ? "Available" : "Not available" } </Text>
-        <Text> {deviceNamesString} </Text>
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+    <NavigationContainer>
+      <Tab.Navigator>
+      <Tab.Screen name="Home" component={HomeScreen} />
+        <Tab.Screen name="Settingsdss" component={SettingsScreen} />
+      </Tab.Navigator>
+    </NavigationContainer>
   );
+
 }
 
 const styles = StyleSheet.create({
