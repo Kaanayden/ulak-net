@@ -1,22 +1,20 @@
+//should be in top for drawer navigation
 import 'react-native-gesture-handler';
 
 import { NavigationContainer } from '@react-navigation/native';
-import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
+
 
 import TabNavigation from './components/TabNavigation';
+import { Provider as PaperProvider } from 'react-native-paper';
 
-import { useState } from 'react';
-
-import {
-  Text,
-  View,
-} from 'react-native';
 
 function App() {
   return (
-    <NavigationContainer>
-      <TabNavigation />
-    </NavigationContainer>
+    <PaperProvider>
+      <NavigationContainer>
+        <TabNavigation />
+      </NavigationContainer>
+    </PaperProvider>
   );
 }
 
