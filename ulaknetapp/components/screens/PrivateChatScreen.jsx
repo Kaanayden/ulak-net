@@ -3,14 +3,12 @@ import {
   View,
 } from 'react-native';
 
-import Icon from 'react-native-vector-icons/FontAwesome';
-
-function HomeScreen() {
+function PrivateChatScreen() {
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Anasayfa!</Text>
+      <Text>Özel Sohbet!</Text>
     </View>
   );
 }
 
-export default HomeScreen
+export default PrivateChatScreen
