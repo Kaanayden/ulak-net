@@ -13,9 +13,12 @@ const Tab = createMaterialBottomTabNavigator();
 
 function TabNavigation() {
   return (
-    <Tab.Navigator>
+    <Tab.Navigator
+      initialRouteName="Anasayfa"
+      backBehavior="history"
+    >
       <Tab.Screen 
-        name="Anasayfa" 
+        name="home" 
         component={HomeScreen}
         options={{
           tabBarLabel: 'Anasayfa',
@@ -25,7 +28,7 @@ function TabNavigation() {
         }}
       />
       <Tab.Screen 
-        name="Yayın" 
+        name="broadcast" 
         component={BroadcastScreen} 
         options={{
           tabBarLabel: 'Yayın',
@@ -35,7 +38,7 @@ function TabNavigation() {
         }}
       />
       <Tab.Screen 
-        name="Özel Sohbet" 
+        name="private-chat" 
         component={PrivateChatScreen} 
         options={{
           tabBarLabel: 'Özel Sohbet',
@@ -48,7 +51,7 @@ function TabNavigation() {
         name="Bluetooth" 
         component={BluetoothTestScreen} 
         options={{
-          tabBarLabel: 'Özel Sohbet',
+          tabBarLabel: 'Bluetooth Test',
           tabBarIcon: ({ color, size }) => (
             <FaIcon name="bluetooth" size={24} color="#333" />
           ),
