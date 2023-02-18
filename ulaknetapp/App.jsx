@@ -25,6 +25,8 @@ import {
 
 import { PermissionsAndroid } from 'react-native';
 
+import BleManager from 'react-native-ble-manager';
+
 const requestAccessFineLocationPermission = async () => {
   const granted = await PermissionsAndroid.request(
     PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
@@ -101,6 +103,11 @@ function App() {
     const deviceNames = devices.map( device => device.name );
      setDeviceNamesString( deviceNames.length )
      setDiscovering(false)
+  }
+
+  async function handleDiscover() {
+    const devices = await BleManager.scan([], 5);
+    
   }
 
   return (
