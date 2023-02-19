@@ -6,7 +6,7 @@ import {
   ToastAndroid
 } from 'react-native';
 import { useState, useEffect, useCallback, useRef } from 'react'
-import { Appbar, List, Divider, Drawer } from 'react-native-paper';
+import { Drawer, Button } from 'react-native-paper';
 import RNBluetoothClassic, { BluetoothDevice } from 'react-native-bluetooth-classic'
 
 import { GiftedChat } from 'react-native-gifted-chat';
@@ -58,10 +58,6 @@ function BroadcastScreen({ navigation }) {
       } )
     }
   }, []);
-
-
-
-
 
 
   async function subscribeToDevice(device) {
@@ -151,8 +147,8 @@ function BroadcastScreen({ navigation }) {
       ref={drawer}
       drawerWidth={300}
       drawerPosition="left"
-      renderNavigationView={drawerComponent}
-    >
+      renderNavigationView={() => drawerComponent(bondedDevices)}
+    > 
       <Text style={{alignSelf: 'center', fontSize: 20, fontWeight: 700, padding: 20}}>Yayın</Text>
       <GiftedChat
         messages={messages}
@@ -165,20 +161,18 @@ function BroadcastScreen({ navigation }) {
   );
 }
 
-function drawerComponent() {
+function drawerComponent(bondedDevices) {
   return (
     <Drawer.Section 
       showDivider={false}
       title="Aktif Cihazlar"
     >
-      <Drawer.Item
-        label="First Item"
-        icon="cellphone"
-      />
-      <Drawer.Item
-        label="Second Item"
-        icon="cellphone"
-      />
+      {bondedDevices.map(device => (
+          <Drawer.Item
+          label={device.address}
+          icon="cellphone"
+        />
+        ))}
     </Drawer.Section>
   )
 }
