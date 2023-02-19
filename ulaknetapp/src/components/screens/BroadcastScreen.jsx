@@ -14,7 +14,8 @@ import { GiftedChat } from 'react-native-gifted-chat';
 const user = {
   _id: Math.floor(Math.random() * 10000),
 }
-function BroadcastScreen({ navigation }) {
+function BroadcastScreen({ route, navigation }) {
+
 
   const drawer = useRef(null)
   const [messages, setMessages] = useState([]);
@@ -24,6 +25,17 @@ function BroadcastScreen({ navigation }) {
 
   const [messageListener, setMessageListener] = useState(new Map());
 
+  const[ currentText, setCurrentText ] = useState(null);
+
+
+
+  useEffect( () => {
+    if(route?.params?.message) {
+      
+      setCurrentText(route.params.message);
+    }
+
+  }, [route?.params] )
 
   useEffect(() => {
 
@@ -151,6 +163,8 @@ function BroadcastScreen({ navigation }) {
     > 
       <Text style={{alignSelf: 'center', fontSize: 20, fontWeight: 700, padding: 20}}>Yayın</Text>
       <GiftedChat
+        text={currentText}
+        onInputTextChanged={setCurrentText}
         messages={messages}
         onSend={messages => onSend(messages)}
         user={user}
@@ -171,6 +185,7 @@ function drawerComponent(bondedDevices) {
           <Drawer.Item
           label={device.address}
           icon="cellphone"
+          key={device.id}
         />
         ))}
     </Drawer.Section>

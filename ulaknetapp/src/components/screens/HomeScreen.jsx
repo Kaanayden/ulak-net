@@ -16,7 +16,7 @@ async function requestPermissions() {
   await permissionRequests.requestBluetoothPermission();
 }
 
-function HomeScreen() {
+function HomeScreen({ navigation }) {
   const [location, setLocation] = useState({})
   const [isLocationLoading, setIsLocationLoading] = useState(true)
 
@@ -51,7 +51,11 @@ function HomeScreen() {
         style={styles.button} 
         icon="hospital-box" 
         mode="contained"
-        onPress={() => console.log("Test")}
+        onPress={() => {
+          navigation.navigate("broadcast", {
+            message : `Yaralıyım. Koordinatlar: ${location.coords.latitude}, ${location.coords.longitude}`,
+          })
+        }}
        >
         Yaralıyım
        </Button>
@@ -60,6 +64,11 @@ function HomeScreen() {
         style={styles.button} 
         icon="home-alert" 
         mode="contained"
+        onPress={() => {
+          navigation.navigate("broadcast", {
+            message : `Enkaz Altındayım. Koordinatlar: ${location.coords.latitude}, ${location.coords.longitude}`,
+          })
+        }}
        >
         Enkaz Altındayım
        </Button>
@@ -68,6 +77,11 @@ function HomeScreen() {
         style={styles.button} 
         icon="food" 
         mode="contained"
+        onPress={() => {
+          navigation.navigate("broadcast", {
+            message : `Gıdaya İhtiyacım Var. Koordinatlar: ${location.coords.latitude}, ${location.coords.longitude}`,
+          })
+        }}
        >
         Gıdaya İhtiyacım Var
        </Button>
@@ -76,6 +90,11 @@ function HomeScreen() {
         style={styles.button} 
         icon="check" 
         mode="contained"
+        onPress={() => {
+          navigation.navigate("broadcast", {
+            message : `İyiyim. Koordinatlar: ${location.coords.latitude}, ${location.coords.longitude}`,
+          })
+        }}
        >
         İyiyim
        </Button>
