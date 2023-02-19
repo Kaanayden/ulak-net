@@ -2,24 +2,46 @@ import {
   Text,
   View,
   StyleSheet,
-
+  PermissionsAndroid
 } from 'react-native';
-
-import Icon from 'react-native-vector-icons/FontAwesome';
 import permissionRequests from '../../utils/permissionRequests';
 import { Button } from 'react-native-paper';
+import Geolocation from 'react-native-geolocation-service';
 
-
-function requestPermissions() {
-  permissionRequests.requestAccessFineLocationPermission();
-  permissionRequests.requestBluetoothConnectPermission();
-  permissionRequests.requestBluetoothPermission();
+import { useEffect, useState } from 'react'
+ 
+async function requestPermissions() {
+  await permissionRequests.requestAccessFineLocationPermission();
+  await permissionRequests.requestBluetoothConnectPermission();
+  await permissionRequests.requestBluetoothPermission();
 }
 
 function HomeScreen() {
+  const [location, setLocation] = useState({})
+
+  useEffect(() => {
+    async function hasLocationPermission() {
+      return await PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION)
+    }
+
+    if (hasLocationPermission()) {
+      Geolocation.getCurrentPosition(
+          (position) => {
+            setLocation({
+              ...position
+            })
+          },
+          (error) => {
+            console.log(error.code, error.message);
+          },
+          { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
+      );
+    }
+  }, [])
+  
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Button onPress={requestPermissions} ></Button>
+    <View style={styles.container}>
+      <Button onPress={requestPermissions} >İzin Al Butonu</Button>
       <Text style={styles.text}>Durumunuz Nasıl?</Text>
       <Button
         buttonColor='#bd1f0d'
@@ -54,8 +76,10 @@ function HomeScreen() {
        >
         İyiyim
        </Button>
+       <Text>Konum</Text>
+       <Text>{location.coords.latitude}</Text>
+       <Text>{location.coords.longitude}</Text>
     </View>
-    
   );
 }
 
@@ -64,7 +88,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     display: 'flex',
-    justifyContent: 'flex-start', 
+    justifyContent: 'center', 
     alignItems: 'center',
     flexDirection: 'column',
   },
