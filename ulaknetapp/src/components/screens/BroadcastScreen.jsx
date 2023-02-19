@@ -3,7 +3,7 @@ import {
   View,
 } from 'react-native';
 import { useState, useEffect } from 'react'
-import { Appbar } from 'react-native-paper';
+import { Drawer } from 'react-native-paper';
 
 import ChatComponent from './../ChatComponent'
 

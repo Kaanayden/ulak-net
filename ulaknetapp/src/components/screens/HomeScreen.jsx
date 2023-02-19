@@ -18,6 +18,7 @@ async function requestPermissions() {
 
 function HomeScreen() {
   const [location, setLocation] = useState({})
+  const [isLocationLoading, setIsLocationLoading] = useState(true)
 
   useEffect(() => {
     async function hasLocationPermission() {
@@ -30,6 +31,8 @@ function HomeScreen() {
             setLocation({
               ...position
             })
+            setIsLocationLoading(false)
+            console.log(location)
           },
           (error) => {
             console.log(error.code, error.message);
@@ -77,8 +80,16 @@ function HomeScreen() {
         İyiyim
        </Button>
        <Text>Konum</Text>
-       <Text>{location.coords.latitude}</Text>
-       <Text>{location.coords.longitude}</Text>
+       {!isLocationLoading && (
+          <>
+            <Text>{location.coords.latitude}</Text>
+            <Text>{location.coords.longitude}</Text>
+          </>
+       )}
+       {isLocationLoading && (
+          <Text>Yükleniyor...</Text>
+       )}
+      
     </View>
   );
 }
