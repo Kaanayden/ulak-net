@@ -4,7 +4,7 @@ import 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
 
 
-import TabNavigation from './components/TabNavigation';
+import TabNavigation from './src/components/TabNavigation';
 import { Provider as PaperProvider } from 'react-native-paper';
 
 

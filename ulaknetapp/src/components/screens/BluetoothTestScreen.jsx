@@ -60,24 +60,29 @@ const requestBluetoothConnectPermission = async () => {
     return granted === PermissionsAndroid.RESULTS.GRANTED;
 };
 
-export default function BluetoothTestScreen() {
+export default function BluetoothTestScreen({navigation}) {
     const [bondedDevices, setBondedDevices] = useState([]);
     const [accepting, setAccepting] = useState(false);
 
     const [messageData, setMessageData] = useState([]);
     const [messageListener, setMessageListener] = useState(null);
 
-    useEffect (() => {
+    useEffect(() => {
 
-        const refreshLoop = setInterval( () => {
-            refreshDevices();
-        }, 2000 );
+        const refreshLoop = setInterval(() => {
+            try {
+                refreshDevices();
+            } catch (e) {
+
+            }
+
+        }, 2000);
         return () => {
             clearInterval(refreshLoop);
         }
     }, []);
 
-    async function handleClick() {
+    async function handleGivePermissions() {
         requestAccessFineLocationPermission();
         requestBluetoothPermission();
         requestBluetoothConnectPermission();
@@ -117,7 +122,6 @@ export default function BluetoothTestScreen() {
             const device = await RNBluetoothClassic.accept({});
             //only works in receiver
             subscribeToDevice(device);
-            await handleOpenDiscover();
         } catch (error) {
             // Handle error accordingly
             console.log("error", error);
@@ -132,21 +136,27 @@ export default function BluetoothTestScreen() {
     }
 
     async function subscribeToDevice(device) {
-        if(!messageListener) {
-            const listener = device.onDataReceived( (event) => {
+        if (!messageListener) {
+            const listener = device.onDataReceived((event) => {
                 setMessageData(
                     current => [...current, event]
                 );
                 console.log("listener event", event);
-            } );
+            });
             setMessageListener(listener);
-        }   
+        }
+    }
+
+    async function handleChat(device) {
+        navigation.navigate( "ChatScreen", {
+            device: device,
+        } );
     }
 
     return (
         <View>
             <Text>ULAK NET</Text>
-            <Button onPress={handleClick}>Give Permissions</Button>
+            <Button onPress={handleGivePermissions}>Give Permissions</Button>
             <Button onPress={refreshDevices}>Refresh Devices</Button>
             {!accepting && <Button onPress={acceptConnections}>Accept Connections</Button>}
 
@@ -170,17 +180,17 @@ export default function BluetoothTestScreen() {
                             </View>
                         }
 
-                        onPress={() => handleConnect(item.item)}
+                        onPress={() => handleChat(item.item)}
                     />)
                 }}
             />
 
             <FlatList
-            data={messageData}
-            keyExtractor={item => item.timestamp}
-            renderItem={ (item) => {
-                return(<Text>{item.item.data}</Text>)
-            } }
+                data={messageData}
+                keyExtractor={item => item.timestamp}
+                renderItem={(item) => {
+                    return (<Text>{item.item.data}</Text>)
+                }}
             />
 
 

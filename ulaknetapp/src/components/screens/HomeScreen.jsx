@@ -1,14 +1,25 @@
 import {
   Text,
   View,
-  StyleSheet
+  StyleSheet,
+
 } from 'react-native';
 
+import Icon from 'react-native-vector-icons/FontAwesome';
+import permissionRequests from '../../utils/permissionRequests';
 import { Button } from 'react-native-paper';
+
+
+function requestPermissions() {
+  permissionRequests.requestAccessFineLocationPermission();
+  permissionRequests.requestBluetoothConnectPermission();
+  permissionRequests.requestBluetoothPermission();
+}
 
 function HomeScreen() {
   return (
-    <View style={styles.container}>
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <Button onPress={requestPermissions} ></Button>
       <Text style={styles.text}>Durumunuz Nasıl?</Text>
       <Button
         buttonColor='#bd1f0d'
@@ -44,8 +55,10 @@ function HomeScreen() {
         İyiyim
        </Button>
     </View>
+    
   );
 }
+
 
 const styles = StyleSheet.create({
   container: {
