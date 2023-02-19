@@ -17,41 +17,41 @@ function ChatList({ navigation }) {
   useEffect(() => {
 
     const refreshLoop = setInterval(() => {
-        try {
-            refreshDevices();
-        } catch (e) {
+      try {
+        refreshDevices();
+      } catch (e) {
 
-        }
+      }
 
     }, 2000);
 
-    const acceptLoop = setInterval( () => {
-      try{
-        if(!accepting) {
+    const acceptLoop = setInterval(() => {
+      try {
+        if (!accepting) {
           acceptConnections();
         }
-        
-      } catch(e) {
+
+      } catch (e) {
 
       }
-    }, 1000 );
+    }, 1000);
 
     return () => {
-        clearInterval(refreshLoop);
-        clearInterval(acceptLoop);
+      clearInterval(refreshLoop);
+      clearInterval(acceptLoop);
     }
-}, []);
+  }, []);
 
 
   async function acceptConnections() {
     setAccepting(true);
-  
+
     try {
-        const device = await RNBluetoothClassic.accept({});
+      const device = await RNBluetoothClassic.accept({});
     } catch (error) {
-        // Handle error accordingly
+      // Handle error accordingly
     } finally {
-        setAccepting(false);
+      setAccepting(false);
     }
   }
 
@@ -64,22 +64,26 @@ function ChatList({ navigation }) {
   async function refreshDevices() {
     const devices = await RNBluetoothClassic.getBondedDevices();
     for (let i = 0; i < devices.length; i++) {
-        devices[i].connected = await devices[i].isConnected();
-    
-    }
-    setBondedDevices(devices);
-    try{
-      devices.forEach( (device) => {
-        try{
-        device.connect();
-        } catch(e) {
-          
-        }
-      } )
-    } catch(e) {
+      devices[i].connected = await devices[i].isConnected();
 
     }
-}
+    setBondedDevices(devices);
+    try {
+      devices.forEach(async (device) => {
+        try {
+          if (!device.connected) {
+            device.connect();
+            ToastAndroid.show( "Cihaza bağlanıldı: " + device.address, ToastAndroid.SHORT)
+          }
+
+        } catch (e) {
+
+        }
+      })
+    } catch (e) {
+
+    }
+  }
 
 
   return (
@@ -91,14 +95,14 @@ function ChatList({ navigation }) {
         renderItem={(item) => {
           return (<List.Item
             title={item.item.name}
-            description={item.item.id + " " + (item.item.connected ? "Connected" : "Not Connected")}
+            description={item.item.id + " - " + (item.item.connected ? "Bağlı" : "Bağlı Değil")}
             left={props => <List.Icon {...props} icon="bluetooth" />}
 
             onPress={() => handleChat(item.item)}
           />)
         }}
       />
-{/*
+      {/*
       <FlatList
         data={contacts}
         renderItem={({ item }) => (

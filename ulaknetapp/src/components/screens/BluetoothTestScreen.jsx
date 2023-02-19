@@ -131,7 +131,7 @@ export default function BluetoothTestScreen({navigation}) {
     }
 
     async function sendMessage(device) {
-        const isSent = await device.write("Alo" + "\n");
+        const isSent = await device.write("Test" + "\n");
         console.log("isSent", isSent);
     }
 

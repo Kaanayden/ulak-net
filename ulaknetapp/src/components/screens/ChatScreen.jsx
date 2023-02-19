@@ -1,4 +1,3 @@
-import ChatComponent from './../ChatComponent'
 import { useState, useEffect } from 'react'
 
 import { GiftedChat } from 'react-native-gifted-chat'
@@ -26,8 +25,6 @@ function ChatScreen({ route }) {
 
   const [messages, setMessages] = useState([]);
   const [messageListener, setMessageListener] = useState(null);
-
-  const [accepting, setAccepting] = useState(null);
   const [device, setDevice] = useState(null);
 
 
@@ -62,7 +59,6 @@ function ChatScreen({ route }) {
   
 
 async function subscribeToDevice(device) {
-  console.log("test", device);
   try{
     const isConnected = await device.isConnected();
     if (!messageListener && isConnected) {
@@ -72,13 +68,12 @@ async function subscribeToDevice(device) {
         });
         setMessageListener(listener);
     }
+    //ToastAndroid.show( "Cihaza bağlanıldı: " + device.address, ToastAndroid.SHORT)
   } catch(e) {
 
   }
 
 }
-
-console.log("message listener", messageListener)
 
   async function onReceiveEvent(event) {
     console.log("new message", event);

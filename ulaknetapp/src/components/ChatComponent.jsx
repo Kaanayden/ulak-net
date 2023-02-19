@@ -1,7 +1,7 @@
 import { GiftedChat } from 'react-native-gifted-chat'
 import { useCallback } from 'react'
 
-function Chat({ messages, setMessages, user, renderUsernameOnMessage }) {
+export default function Chat({ messages, setMessages, user, renderUsernameOnMessage }) {
   const onSend = useCallback((messages = []) => {
     setMessages(previousMessages => GiftedChat.append(previousMessages, messages))
   }, [])
@@ -17,4 +17,3 @@ function Chat({ messages, setMessages, user, renderUsernameOnMessage }) {
   )
 }
 
-export default Chat

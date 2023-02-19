@@ -5,8 +5,6 @@ import Fa5Icon from 'react-native-vector-icons/dist/FontAwesome5';
 import BroadcastScreen from './screens/BroadcastScreen';
 import HomeScreen from './screens/HomeScreen';
 import PrivateChatScreen from './screens/PrivateChatScreen';
-import BluetoothTestScreen from './screens/BluetoothTestScreen';
-
 
 
 const Tab = createMaterialBottomTabNavigator();
@@ -44,16 +42,6 @@ function TabNavigation() {
           tabBarLabel: 'Özel Sohbet',
           tabBarIcon: ({ color, size }) => (
             <FaIcon name="wechat" size={24} color="#333" />
-          ),
-        }}
-      />
-        <Tab.Screen 
-        name="Bluetooth" 
-        component={BluetoothTestScreen} 
-        options={{
-          tabBarLabel: 'Bluetooth Test',
-          tabBarIcon: ({ color, size }) => (
-            <FaIcon name="bluetooth" size={24} color="#333" />
           ),
         }}
       />
