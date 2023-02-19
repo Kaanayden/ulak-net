@@ -169,6 +169,7 @@ function BroadcastScreen({ route, navigation }) {
         onSend={messages => onSend(messages)}
         user={user}
         renderAvatar={null}
+        placeholder='Mesaj Gönder'
       //renderUsernameOnMessage={renderUsernameOnMessage}
       />
     </DrawerLayoutAndroid>
@@ -183,7 +184,7 @@ function drawerComponent(bondedDevices) {
     >
       {bondedDevices.map(device => (
           <Drawer.Item
-          label={device.address}
+          label={device.name}
           icon="cellphone"
           key={device.id}
         />

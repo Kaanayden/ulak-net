@@ -102,6 +102,7 @@ async function subscribeToDevice(device) {
       onSend={messages => onSend(messages)}
       user={user}
       renderAvatar={null}
+      placeholder='Mesaj Gönder'
       //renderUsernameOnMessage={renderUsernameOnMessage}
     />
   )
