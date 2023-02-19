@@ -1,8 +1,8 @@
 import {
   Text,
-  View,
+  DrawerLayoutAndroid,
 } from 'react-native';
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Drawer } from 'react-native-paper';
 
 import ChatComponent from './../ChatComponent'
@@ -12,6 +12,7 @@ function SettingsScreen({ navigation }) {
     _id: 1,
   }
   
+  const drawer = useRef(null)
   const [messages, setMessages] = useState([]);
 
   useEffect(() => {
@@ -38,7 +39,12 @@ function SettingsScreen({ navigation }) {
   }, [])
 
   return (
-    <>
+    <DrawerLayoutAndroid
+      ref={drawer}
+      drawerWidth={300}
+      drawerPosition="left"
+      renderNavigationView={drawerComponent}
+    >
       <Text style={{alignSelf: 'center', fontSize: 20, fontWeight: 700, padding: 20}}>Yayın</Text>
       <ChatComponent 
         messages={messages} 
@@ -46,8 +52,26 @@ function SettingsScreen({ navigation }) {
         user={user}
         renderUsernameOnMessage={true}
       />
-    </>
+    </DrawerLayoutAndroid>
   );
+}
+
+function drawerComponent() {
+  return (
+    <Drawer.Section 
+      showDivider={false}
+      title="Aktif Cihazlar"
+    >
+      <Drawer.Item
+        label="First Item"
+        icon="cellphone"
+      />
+      <Drawer.Item
+        label="Second Item"
+        icon="cellphone"
+      />
+    </Drawer.Section>
+  )
 }
 
 export default SettingsScreen
