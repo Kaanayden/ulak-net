@@ -6,6 +6,7 @@ function ChatScreen({ route }) {
   const [messages, setMessages] = useState([]);
 
   useEffect(() => {
+    console.log(route.params.messages)
     setMessages(route.params.messages)
   }, [])
 
