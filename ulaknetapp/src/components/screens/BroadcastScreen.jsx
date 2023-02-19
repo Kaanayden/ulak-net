@@ -1,28 +1,22 @@
 import {
   Text,
   View,
+  DrawerLayoutAndroid,
   FlatList,
   ToastAndroid
 } from 'react-native';
-import { useState, useEffect, useCallback } from 'react'
-import { Appbar, List, Divider } from 'react-native-paper';
+import { useState, useEffect, useCallback, useRef } from 'react'
+import { Appbar, List, Divider, Drawer } from 'react-native-paper';
 import RNBluetoothClassic, { BluetoothDevice } from 'react-native-bluetooth-classic'
-import { Drawer } from 'react-native-paper';
 
 import { GiftedChat } from 'react-native-gifted-chat';
-
-
-
-
-
-
 
 const user = {
   _id: Math.floor(Math.random() * 10000),
 }
-
 function BroadcastScreen({ navigation }) {
 
+  const drawer = useRef(null)
   const [messages, setMessages] = useState([]);
 
   const [bondedDevices, setBondedDevices] = useState([]);
@@ -153,8 +147,13 @@ function BroadcastScreen({ navigation }) {
   }
 
   return (
-    <>
-      <Text style={{ alignSelf: 'center', fontSize: 20, fontWeight: 700, padding: 20 }}>Yayın</Text>
+    <DrawerLayoutAndroid
+      ref={drawer}
+      drawerWidth={300}
+      drawerPosition="left"
+      renderNavigationView={drawerComponent}
+    >
+      <Text style={{alignSelf: 'center', fontSize: 20, fontWeight: 700, padding: 20}}>Yayın</Text>
       <GiftedChat
         messages={messages}
         onSend={messages => onSend(messages)}
@@ -162,8 +161,26 @@ function BroadcastScreen({ navigation }) {
         renderAvatar={null}
       //renderUsernameOnMessage={renderUsernameOnMessage}
       />
-    </>
+    </DrawerLayoutAndroid>
   );
+}
+
+function drawerComponent() {
+  return (
+    <Drawer.Section 
+      showDivider={false}
+      title="Aktif Cihazlar"
+    >
+      <Drawer.Item
+        label="First Item"
+        icon="cellphone"
+      />
+      <Drawer.Item
+        label="Second Item"
+        icon="cellphone"
+      />
+    </Drawer.Section>
+  )
 }
 
 export default BroadcastScreen;

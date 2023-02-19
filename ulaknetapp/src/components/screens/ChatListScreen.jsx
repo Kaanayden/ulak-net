@@ -97,7 +97,6 @@ function ChatList({ navigation }) {
             title={item.item.name}
             description={item.item.id + " - " + (item.item.connected ? "Bağlı" : "Bağlı Değil")}
             left={props => <List.Icon {...props} icon="bluetooth" />}
-
             onPress={() => handleChat(item.item)}
           />)
         }}
