@@ -9,7 +9,7 @@ import { useState, useEffect, useCallback, useRef } from 'react'
 import { Drawer, Button } from 'react-native-paper';
 import RNBluetoothClassic, { BluetoothDevice } from 'react-native-bluetooth-classic'
 
-import { GiftedChat } from 'react-native-gifted-chat';
+import { GiftedChat, Send } from 'react-native-gifted-chat';
 
 const user = {
   _id: Math.floor(Math.random() * 10000),
@@ -170,6 +170,13 @@ function BroadcastScreen({ route, navigation }) {
         user={user}
         renderAvatar={null}
         placeholder='Mesaj Gönder'
+        renderSend={(props) => (
+          <Send {...props}>
+            <View style={{justifyContent: 'center', height: '100%', marginRight: 10}}>
+              <Text style={{color: 'dodgerblue', fontWeight: '700', fontSize: 16}}>Gönder</Text>
+            </View>
+          </Send>
+        )}
       //renderUsernameOnMessage={renderUsernameOnMessage}
       />
     </DrawerLayoutAndroid>

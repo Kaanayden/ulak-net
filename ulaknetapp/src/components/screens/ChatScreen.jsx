@@ -103,6 +103,13 @@ async function subscribeToDevice(device) {
       user={user}
       renderAvatar={null}
       placeholder='Mesaj Gönder'
+      renderSend={(props) => (
+        <Send {...props}>
+          <View style={{justifyContent: 'center', height: '100%', marginRight: 10}}>
+            <Text style={{color: 'dodgerblue', fontWeight: '700', fontSize: 16}}>Gönder</Text>
+          </View>
+        </Send>
+      )}
       //renderUsernameOnMessage={renderUsernameOnMessage}
     />
   )
