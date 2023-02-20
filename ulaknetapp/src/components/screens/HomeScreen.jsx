@@ -53,7 +53,7 @@ function HomeScreen({ navigation }) {
         mode="contained"
         onPress={() => {
           navigation.navigate("broadcast", {
-            message : `Yaralıyım. Koordinatlar: ${location.coords.latitude}, ${location.coords.longitude}`,
+            message : `Yaraliyim. Koordinatlar: ${location.coords.latitude}, ${location.coords.longitude}`,
           })
         }}
        >
@@ -66,7 +66,7 @@ function HomeScreen({ navigation }) {
         mode="contained"
         onPress={() => {
           navigation.navigate("broadcast", {
-            message : `Enkaz Altındayım. Koordinatlar: ${location.coords.latitude}, ${location.coords.longitude}`,
+            message : `Enkaz Altindayim. Koordinatlar: ${location.coords.latitude}, ${location.coords.longitude}`,
           })
         }}
        >
@@ -79,7 +79,7 @@ function HomeScreen({ navigation }) {
         mode="contained"
         onPress={() => {
           navigation.navigate("broadcast", {
-            message : `Gıdaya İhtiyacım Var. Koordinatlar: ${location.coords.latitude}, ${location.coords.longitude}`,
+            message : `Gidaya Ihtiyacim Var. Koordinatlar: ${location.coords.latitude}, ${location.coords.longitude}`,
           })
         }}
        >
@@ -92,7 +92,7 @@ function HomeScreen({ navigation }) {
         mode="contained"
         onPress={() => {
           navigation.navigate("broadcast", {
-            message : `İyiyim. Koordinatlar: ${location.coords.latitude}, ${location.coords.longitude}`,
+            message : `Iyiyim. Koordinatlar: ${location.coords.latitude}, ${location.coords.longitude}`,
           })
         }}
        >

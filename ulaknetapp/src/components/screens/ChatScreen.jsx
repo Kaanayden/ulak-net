@@ -3,6 +3,8 @@ import { useState, useEffect } from 'react'
 import { GiftedChat, Send } from 'react-native-gifted-chat'
 import { useCallback } from 'react'
 import RNBluetoothClassic, { BluetoothDevice } from 'react-native-bluetooth-classic'
+import { View, Text } from 'react-native'
+
 
 const user = {
   _id: Math.floor(Math.random() * 10000),
