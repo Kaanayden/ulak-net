@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 
-import { GiftedChat } from 'react-native-gifted-chat'
+import { GiftedChat, Send } from 'react-native-gifted-chat'
 import { useCallback } from 'react'
 import RNBluetoothClassic, { BluetoothDevice } from 'react-native-bluetooth-classic'
 
