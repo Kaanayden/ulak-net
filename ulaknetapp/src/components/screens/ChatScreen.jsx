@@ -9,15 +9,6 @@ const user = {
 }
 
 
-
-
-function createNewMessageFromEvent(event) {
-
-    return JSON.parse( event.data );
-  }
-
-
-
   //route.params.device
 function ChatScreen({ route }) {
   
@@ -85,7 +76,11 @@ async function subscribeToDevice(device) {
 
   async function onSend(newMessages) {
 
-    const stringified = JSON.stringify( newMessages[0] );
+    const newMessage = newMessages[0];
+    newMessage.isPublic = false;
+    
+    const stringified = JSON.stringify(newMessage);
+
     sendMessage(device, stringified);
 
     setMessages( (current) =>  [...newMessages,  ...current] );
@@ -98,7 +93,7 @@ async function subscribeToDevice(device) {
 
   return (
     <GiftedChat
-      messages={messages}
+      messages={messages.filter( (message) => !message.isPublic ) }
       onSend={messages => onSend(messages)}
       user={user}
       renderAvatar={null}

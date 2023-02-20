@@ -101,7 +101,10 @@ function BroadcastScreen({ route, navigation }) {
 
   async function onSend(newMessages) {
 
-    const stringified = JSON.stringify(newMessages[0]);
+    const newMessage = newMessages[0];
+    newMessage.isPublic = true;
+    
+    const stringified = JSON.stringify(newMessage);
     bondedDevices.forEach( async (device) => {
       await sendMessage(device, stringified);
     } )
@@ -165,7 +168,7 @@ function BroadcastScreen({ route, navigation }) {
       <GiftedChat
         text={currentText}
         onInputTextChanged={setCurrentText}
-        messages={messages}
+        messages={messages.filter( (message) => message.isPublic ) }
         onSend={messages => onSend(messages)}
         user={user}
         renderAvatar={null}

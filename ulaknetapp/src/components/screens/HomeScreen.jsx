@@ -44,7 +44,7 @@ function HomeScreen({ navigation }) {
   
   return (
     <View style={styles.container}>
-      <Button onPress={requestPermissions} >İzin Al Butonu</Button>
+      <Button onPress={requestPermissions} >Uygulamayı Kullanmak İçin İzinleri Al</Button>
       <Text style={styles.text}>Durumunuz Nasıl?</Text>
       <Button
         buttonColor='#bd1f0d'
